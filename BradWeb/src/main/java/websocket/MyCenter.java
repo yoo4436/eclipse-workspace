@@ -10,10 +10,12 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/myserver")
-public class MyServer {
+public class MyCenter {
 	private static HashSet<Session> sessions;
+	private static boolean isExistTeacher = false;
+	private static Session teacherSession;
 	
-	public MyServer() {
+	public MyCenter() {
 		if (sessions == null) {
 			sessions = new HashSet<>();
 		}
@@ -29,13 +31,11 @@ public class MyServer {
 	
 	@OnMessage
 	public void onMessage(String msg, Session session) {
-//		System.out.println("onMessage");
-		for (Session userSession : sessions ) {
-			try {
-				userSession.getBasicRemote().sendText(msg);
-			} catch (Exception e) {
-				System.out.println(e);
-			}
+		if (!isExistTeacher && msg.contains("isTeacher")) {
+			isExistTeacher = true;
+			teacherSession = session;
+		}else if (session == teacherSession) {
+			
 		}
 	}
 	
