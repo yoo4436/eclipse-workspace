@@ -20,20 +20,26 @@ public class GiftDAO {
 			select id , name , feature , addr , tel, picurl
 			from gift
 			order by id
+			LIMIT ?, ?
 			""";
 	
 
-	
-	public GiftDAO(){
-
+	private int page, rpp;
+	public GiftDAO(int page,int rpp){
+		this.page = page;
+		this.rpp = rpp;
 	}
 	
-	public List<Gift> findAll() throws Exception {
+	public List<Gift> findAll() {
+		System.out.println("INININI");
 		List<Gift> gifts = new ArrayList<Gift>();
 		try(Connection conn = DriverManager.getConnection(url, user, pw);
 				PreparedStatement pstmt = conn.prepareStatement(sql_find_all);
-				ResultSet rs = pstmt.executeQuery();
 				){
+			System.out.println("OK333");
+			pstmt.setInt(1, (page-1)*rpp);
+			pstmt.setInt(2, rpp);
+			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Gift gift = new Gift();
 				gift.setId(rs.getLong("id"));
@@ -44,6 +50,9 @@ public class GiftDAO {
 				gift.setPicurl(rs.getString("picurl"));
 				gifts.add(gift);
 			}
+			rs.close();
+		}catch (Exception e){
+			System.out.println(e);
 		}
 		return gifts;
 	}
