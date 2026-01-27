@@ -1,5 +1,7 @@
 package tw.brad.apis;
 
+import java.util.Random;
+
 public class BradUtils {
 	public static String calc(String x, String y, String op) {
 		try {
@@ -19,5 +21,9 @@ public class BradUtils {
 			return "";
 		}
 	
+	}
+	
+	public static int createScore() {
+		return new Random().nextInt(101);
 	}
 }
