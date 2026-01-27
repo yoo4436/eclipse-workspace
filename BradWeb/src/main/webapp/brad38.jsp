@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	request.setAttribute("lottery", (int)(Math.random()*49+1));
+%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -9,9 +12,7 @@
 	<body>
 		<div>Brad Big Company</div>
 		<hr />
-		<jsp:include page="brad39.jsp">
-			<jsp:param value="10" name="x"/>
-		</jsp:include>
+		<jsp:include page="brad39.jsp"></jsp:include>
 		<hr />
 		<jsp:include page="brad39.jsp?x=100"></jsp:include>
 		<hr />
