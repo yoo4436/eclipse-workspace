@@ -8,7 +8,7 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<c:set var="score" value="0">${BradUtils.createScore() }</c:set><br />
+		<c:set var="score">${BradUtils.createScore() }</c:set><br />
 		Score : ${score }<br />
 		<c:if test="${score >= 60} ">Pass</c:if>
 		<c:if test="${score < 60}">Down</c:if>
