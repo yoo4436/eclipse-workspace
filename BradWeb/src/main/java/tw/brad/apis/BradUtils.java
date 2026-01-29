@@ -66,6 +66,7 @@ public class BradUtils {
 					rows[0].getOrDefault("CompanyName", ""),
 					rows[0].getOrDefault("ContactName", "")));
 			
+			double total = 0;
 			JSONArray details = new JSONArray();
 			for (SortedMap<String, String> row : rows) {
 				JSONObject obj = new JSONObject();
@@ -75,13 +76,15 @@ public class BradUtils {
 				obj.put("pname", row.getOrDefault("ProductName", ""));
 				obj.put("price", row.getOrDefault("UnitPrice", ""));
 				obj.put("qty", row.getOrDefault("Quantity", ""));
-				
+				//TODO
 				double price = Double.parseDouble(obj.get("price").toString());
 				int qty = Integer.parseInt(obj.get("qty").toString());
 				double sum = price * qty;
 				obj.put("sum", sum);
+				
+				total += sum;
 			}
-			
+			root.put("total", total);
 			root.put("details", details);
 		}
 		

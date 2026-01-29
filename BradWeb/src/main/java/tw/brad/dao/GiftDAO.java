@@ -22,9 +22,19 @@ public class GiftDAO {
 			order by id
 			LIMIT ?, ?
 			""";
-	
+
+	private static final String sql_query_key = """
+			select id , name , feature , addr , tel, picurl
+			from gift
+			where name like ? or feature like ? or addr like ? or tel like ?
+			order by addr
+			""";
+
 
 	private int page, rpp;
+	
+	public GiftDAO() {}
+	
 	public GiftDAO(int page,int rpp){
 		this.page = page;
 		this.rpp = rpp;
@@ -57,4 +67,34 @@ public class GiftDAO {
 		return gifts;
 	}
 	
+	public List<Gift> search(String keyword) throws Exception {
+		String k = (keyword == null) ? "": keyword.trim();
+		String like = "%" + k + "%";
+		List<Gift> gifts = new ArrayList<Gift>();
+		try (Connection conn = DriverManager.getConnection(url, user, pw);
+				PreparedStatement pstmt = conn.prepareStatement(sql_query_key)){
+			pstmt.setString(1, like);
+			pstmt.setString(2, like);
+			pstmt.setString(3, like);
+			pstmt.setString(4, like);
+			
+			try (ResultSet rs = pstmt.executeQuery()){
+				while (rs.next()) {
+					Gift gift = new Gift();
+					gifts.add(gift);
+					
+					gift.setId(rs.getLong("id"));
+					gift.setName(rs.getString("name"));
+					gift.setFeature(rs.getString("feature"));
+					gift.setAddr(rs.getString("addr"));
+					gift.setTel(rs.getString("tel"));
+					gift.setPicurl(rs.getString("picurl"));
+				}
+			}
+			
+		} 
+		
+		
+		return gifts;
+	}
 }
