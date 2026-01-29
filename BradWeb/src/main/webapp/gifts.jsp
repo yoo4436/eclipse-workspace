@@ -8,6 +8,16 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<style type="text/css">
+			table {
+				border-collapse: collapse; 
+				width: 100%;
+			}
+			th, td{
+				border: 1px solid #ccc;
+				padding: 8px;
+			}
+		</style>
 	</head>
 	<body>
 		<h1>Brad Big Company</h1>
@@ -22,6 +32,24 @@
 			</c:when>
 			<c:otherwise>
 				<div>共有 ${results.size() } 筆資料</div>
+				<table>
+					<thead>
+						<tr>
+							<th>Id</th><th>Name</th><th>Feature</th>Tel<th>Addr</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${results }" var="gift">
+							<tr>
+								<td>${gift.id }</td>
+								<td>${gift.name }</td>
+								<td>${gift.feature }</td>
+								<td>${gift.tel }</td>
+								<td>${gift.addr }</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</c:otherwise>
 		</c:choose>
 	</body>
