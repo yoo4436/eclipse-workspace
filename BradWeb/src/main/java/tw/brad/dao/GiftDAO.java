@@ -41,12 +41,12 @@ public class GiftDAO {
 	}
 	
 	public List<Gift> findAll() {
-		System.out.println("INININI");
+//		System.out.println("INININI");
 		List<Gift> gifts = new ArrayList<Gift>();
 		try(Connection conn = DriverManager.getConnection(url, user, pw);
 				PreparedStatement pstmt = conn.prepareStatement(sql_find_all);
 				){
-			System.out.println("OK333");
+//			System.out.println("OK333");
 			pstmt.setInt(1, (page-1)*rpp);
 			pstmt.setInt(2, rpp);
 			ResultSet rs = pstmt.executeQuery();
@@ -93,8 +93,6 @@ public class GiftDAO {
 			}
 			
 		} 
-		
-		
 		return gifts;
 	}
 }
