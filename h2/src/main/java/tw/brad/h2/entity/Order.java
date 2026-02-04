@@ -17,15 +17,10 @@ public class Order {
 	@Id
 	@Column(name = "OrderID")
 	private int orderId;
-
-	public int getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
-	}
-
+	
+	@Column(name = "OrderDate")
+	private String orderDate;
+	
 	@ManyToOne
 	@JoinColumn(name = "CustomerID")
 	private Customer customer;
@@ -33,6 +28,18 @@ public class Order {
 	@ManyToOne
 	@JoinColumn(name = "EmployeeID")
 	private Employee employee;
+	
+	@OneToMany(mappedBy = "order")
+	public List<OrderDetail> orderDetails = new ArrayList<>();
+	
+	//-----------
+	public int getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 
 	public Customer getCustomer() {
 		return customer;
@@ -49,10 +56,7 @@ public class Order {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-	//------------
-	@OneToMany(mappedBy = "order")
-	public List<OrderDetail> orderDetails = new ArrayList<>();
-
+	
 	public List<OrderDetail> getOrderDetails() {
 		return orderDetails;
 	}
@@ -60,5 +64,14 @@ public class Order {
 	public void setOrderDetails(List<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
 	}
+	
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+
 }
 

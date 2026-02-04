@@ -28,6 +28,13 @@ public class OrderDetail {
 	@Column(name = "Quantity")
 	private int quantity;
 	
+	@ManyToOne
+	@JoinColumn(name = "OrderID")
+	private Order order;
+	
+	@ManyToOne
+	@JoinColumn(name = "ProductID", insertable = false, updatable = false)
+	private Product product;
 	
 	public int getOrderId() {
 		return orderId;
@@ -53,11 +60,6 @@ public class OrderDetail {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	//-----------------------------
-	@ManyToOne
-	@JoinColumn(name = "OrderID")
-	private Order order;
-
 
 	public Order getOrder() {
 		return order;
@@ -65,10 +67,6 @@ public class OrderDetail {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-	//-------------------
-	@ManyToOne
-	@JoinColumn(name = "ProductID", insertable = false, updatable = false)
-	private Product product;
 	
 	public Product getProduct() {
 		return product;

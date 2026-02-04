@@ -1,21 +1,42 @@
 package tw.brad.h2;
 
+import java.util.List;
+
+import org.hibernate.Session;
+
+import tw.brad.h2.util.HibernateUtil;
+
 public class Brad08 {
 	private static final String hql = """
 			select 
 				o.customer.cname,
 				o.employee.lastName,
+				o.orderDate,
 				p.productName,
 				d.unitPrice,
 				d.quantity
-			from order o
+			from Order o
 			join o.orderDetails d
 			join d.product p
 			where o.orderId = :orderId
 			""";
 	
 	public static void main(String[] args) {
-		
+		try(Session session = HibernateUtil.getSessionFactory().openSession()){
+			List<Object[]> result = session.createQuery(hql, Object[].class)
+					.setParameter("orderId", 10248)
+					.getResultList();
+			for (Object[] row : result) {
+				System.out.println(row[0]);
+				System.out.println(row[1]);
+				System.out.println(row[2]);
+				System.out.println(row[3] + ":" + row[4] + ":" + row[5]);
+			}
+			
+			
+		}catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 }
