@@ -30,7 +30,7 @@ public class Order {
 	private Employee employee;
 	
 	@OneToMany(mappedBy = "order")
-	public List<OrderDetail> orderDetails = new ArrayList<>();
+	private List<OrderDetail> orderDetails = new ArrayList<>();
 	
 	//-----------
 	public int getOrderId() {
