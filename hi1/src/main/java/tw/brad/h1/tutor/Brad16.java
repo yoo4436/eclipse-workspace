@@ -2,6 +2,7 @@ package tw.brad.h1.tutor;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import tw.brad.h1.dao.SCDao;
 import tw.brad.h1.entity.Course;
@@ -19,17 +20,26 @@ public class Brad16 {
 		s1 = dao.getStudentById(sid);
 		System.out.printf("Welcome, %s", s1.getSname());
 		
-		List<Course> courses = dao.getAllCourse();
-		for (Course course : courses) {
-			System.out.printf("%d. %s\n", course.getId(), course.getCname());
-		}
-		System.out.println("-----");
-		System.out.println("Which? ");
-		long cid = scanner.nextLong();
 		
-		s1.addCourse(dao.getCourseById(cid));
-		dao.update(s1);
+		while(true) {
+			List<Course> courses = dao.getAllCourse();
+			for (Course course : courses) {
+				System.out.printf("%d. %s\n", course.getId(), course.getCname());
+			}
+			System.out.println("-----");
+			System.out.println("Which? ");
+			long cid = scanner.nextLong();
+			
+			if(cid <= 0) break;
+			
+			s1.addCourse(dao.getCourseById(cid));
+			dao.update(s1);
+		}
+		
 		
 	}
 
+	static boolean isExist(Student s, Set<Student> ss) {
+		return ss.stream().anyMatch(Student -> Student.getId().equals(s.getId()));
+	}
 }

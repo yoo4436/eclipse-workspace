@@ -30,13 +30,17 @@ public class Brad16t {
 			}
 			System.out.println("-----");
 			System.out.println("Which? ");
-			cid = scanner.nextLong();
+			
+//			String inputStr = scanner.nextLine();
+//			cid = Long.parseLong(inputStr);
+			cid = scanner.nextLong(); 
+			scanner.nextLine();
 			s1.addCourse(dao.getCourseById(cid));
 			dao.update(s1);
 			courses.remove((int)cid-1);
 			System.out.println("======");
 			System.out.println("Continued? Y / N");
-			if (scanner.nextLine().equals("N")) i = false;
+			if (scanner.nextLine().equalsIgnoreCase("N")) i = false;
 		} while (i);
 		
 		
