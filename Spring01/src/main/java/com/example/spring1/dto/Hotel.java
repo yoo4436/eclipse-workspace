@@ -3,7 +3,6 @@ package com.example.spring1.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Hotel {
-    @JsonProperty("Id")
     private Long id;
 
     @JsonProperty("Name")
