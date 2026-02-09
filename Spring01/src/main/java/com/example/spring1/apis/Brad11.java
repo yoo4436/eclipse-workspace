@@ -72,13 +72,13 @@ public class Brad11 {
     @GetMapping("/search")
     public List<Hotel> findByKey(@RequestParam String key) {
         String sql = """
-                select id, name, addr, tel from hotel where id = :id
+                select id, name, addr, tel from hotel 
                 where name like :skey OR
-                addr like :skey OR
-                tel like :skey
+                    addr like :skey OR
+                    tel like :skey
                 """;
-        Map<String, String> params = new HashMap<>();
-        params.put("skey", "%" + key +"%");
-        return jdbc.query(sql, params, hotelRowMapper);
+        Map<String,String> params = new HashMap<>();
+		params.put("skey", "%"+key+"%");
+		return jdbc.query(sql, params, hotelRowMapper);
     }
 }
