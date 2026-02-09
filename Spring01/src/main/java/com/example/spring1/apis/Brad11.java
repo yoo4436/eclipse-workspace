@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.spring1.dto.Hotel;
@@ -66,5 +67,18 @@ public class Brad11 {
             hotel.setError(-1);
         }
         return hotel;
+    }
+
+    @GetMapping("/search")
+    public List<Hotel> findByKey(@RequestParam String key) {
+        String sql = """
+                select id, name, addr, tel from hotel where id = :id
+                where name like :skey OR
+                addr like :skey OR
+                tel like :skey
+                """;
+        Map<String, String> params = new HashMap<>();
+        params.put("skey", "%" + key +"%");
+        return jdbc.query(sql, params, hotelRowMapper);
     }
 }
