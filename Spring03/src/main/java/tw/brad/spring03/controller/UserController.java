@@ -11,7 +11,11 @@ public class UserController {
 
     @RequestMapping("/test1")
     public void test1() {
+        // User user = User.builder().id(100).name("OK").gender(false).build();
         User user = new User();
-        user.setId(2);
+        user.setId(123);
+        user.setName("Brad");
+        user.setGender(true);
+        System.out.println(user);
     }
 }
