@@ -4,15 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#loginForm').on("submit", function(e){
+                e.preventDefault();
+                let email = $('#email').val();
+                let pw = $('#pw').val();
+
+                $.ajax({
+                    url: '/api/members/login',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        email: email,
+                        pw: pw
+                    }),
+                    success: function(response){
+                        console.log(response);
+                        if (response.success) {
+                            location.href = "index.html";
+                        }else {
+                            $('#msg').text("登入失敗");
+                        }
+                    },
+                    error: function(xhttp, status, error){
+                        console.log(status);
+                        console.log(error);
+                    }
+                });
+            })
+        })
+    </script>
 </head>
 <body>
     <h1>Register Page</h1>
     <hr>
-    <form id="regForm" action="">
-        Email: <input name="" id="email" required="required" /><br />
+    <form id="loginForm" action="">
+        Email: <input id="email" required="required" /><br />
         Password: <input type="password" id="pw" required="required" /><br />
-        Name: <input id="name" required="required" /><br />
-        <input type="submit" value="Register" />
+        <input type="submit" value="Login" />
         <span id="msg"></span>
     </form>
 </body>
