@@ -1,48 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 20px;
+        }
+
+        th,
+        td {
+            border: 1px, solid, #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         // 撈 profile / hotel
-        $(document).ready(function(){
+        $(document).ready(function () {
             // 檢查 Session
             $.ajax({
-                url : "/api/members/status",
+                url: "/api/members/status",
                 method: 'POST',
                 dataType: 'json'
-            }).done(function(data) {
-                if (data.success){
+            }).done(function (data) {
+                if (data.success) {
                     $('#companyName').text(data.companyName);
                     $('#companyTel').text(data.companyTel);
                     $('#welcome').text("Hello, " + data.member.name + "(" + data.member.email + ")");
-                }else{
+                } else {
                     location.href = 'login.html'
                 }
             })
-            .fail(function(){ location.href = 'login.html' });
+                .fail(function () { location.href = 'login.html' });
 
-            $('#logout').click(function(){
+            $('#logout').click(function () {
                 $.ajax({
                     url: "/api/members/logout",
                     method: "GET",
                     dataType: "json"
-                }).always(function(){location.href = 'login.html';});
-                
-                function loadHotel() {
+                }).always(function () { location.href = 'login.html'; });
 
-                }
+            });
 
-                loadHotel();
+            const rpp = 10;
+            let nowPage = 0;
+            let totalPage = 0;
 
-                $('#prev').click(() => {});
-                $('#next').click(() => {});
+            function loadHotel(page) {
+                $.ajax({
+                    url: `/api/hotels?page=${page}&rpp=${rpp}`,
+                    method: 'GET',
+                    dataType: 'json'
+                })
+                .done(result => {
+                    console.log("2");
+                    let tbody = $('#hotelTable tbody').empty();
+                    result.data.forEach(hotel => {
+                    tbody.append(`
+                        <tr>
+                            <td>${hotel.id}</td>
+                            <td>${hotel.name}</td>
+                            <td>${hotel.tel}</td>
+                            <td>${hotel.addr}</td>
+                        </tr>
+                        `);
+                    });
+
+                    nowPage = result.page
+                    totalPage = result.totalPage;
+
+                    $('#page').text(`${nowPage + 1} / ${totalPage}`);
+
+                });
+            }
+
+            loadHotel(nowPage);
+            $('#prev').click(() => {
+                if (nowPage > 0) loadHotel(nowPage - 1, rpp)
+            });
+            $('#next').click(() => {
+                if (nowPage + 1 < totalPage) loadHotel(nowPage + 1, rpp);
             });
         });
     </script>
     <title>Document</title>
 </head>
+
 <body>
     <h1 id="companyName">Title</h1>
     <h3 id="companyTel">Tel</h3>
@@ -52,7 +104,7 @@
     <div id="icon"></div>
     <button id="logout">Logout</button>
     <hr>
-    <button id="prev">Prev</button> | <span id="page">3</span> | <button id="next">Next</button> 
+    <button id="prev">Prev</button> | <span id="page">3</span> | <button id="next">Next</button>
     <table id="hotelTable">
         <thead>
             <tr>
@@ -65,4 +117,5 @@
         <tbody></tbody>
     </table>
 </body>
+
 </html>
